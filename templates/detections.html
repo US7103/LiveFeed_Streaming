@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}All Detections{% endblock %}
+
+{% block content %}
+  <h1 style="font-size: 2.2rem; margin-bottom: 2rem; color: #d99a00; font-weight: 700; text-align: center;">
+    📑 All Detections
+  </h1>
+
+  <div id="detections" style="
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+  "></div>
+
+  <script>
+    async function loadDetections() {
+      const res = await fetch('/detections');
+      const data = await res.json();
+      const container = document.getElementById('detections');
+      data.forEach(d => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style = `
+          background-color: #fffef6;
+          border-radius: 12px;
+          padding: 1rem;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        `;
+        card.onmouseover = () => {
+          card.style.transform = 'scale(1.02)';
+          card.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.12)';
+        };
+        card.onmouseout = () => {
+          card.style.transform = 'scale(1)';
+          card.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.07)';
+        };
+        card.innerHTML = `
+          <img src="${d.image}" alt="Detection Image" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 1rem;" />
+          <h3 style="font-size: 1.1rem; color: #333; margin-bottom: 0.5rem;">🔖 ${d.label} 
+            <span style="color: #777;">(${(d.confidence * 100).toFixed(1)}%)</span>
+          </h3>
+          <h4 style="font-size: 0.95rem; color: #888; margin-bottom: 0.5rem;">🕒 ${d.timestamp}</h4>
+          <p style="font-size: 0.95rem; color: #444; text-align: center;">${d.msg}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+    loadDetections();
+  </script>
+{% endblock %}

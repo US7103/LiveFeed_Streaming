@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Dashboard{% endblock %}</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fffef6; /* light yellowish-white */
+      color: #333;
+    }
+
+    /* Navbar styles */
+    nav.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff7cc; /* soft yellow */
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #444;
+    }
+
+    .navbar-links a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-links a:hover {
+      color: #d99a00; /* golden hover */
+    }
+
+    .navbar-links a::after {
+      content: "";
+      display: block;
+      height: 2px;
+      background: #d99a00;
+      width: 0;
+      transition: width 0.3s ease;
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+    }
+
+    .navbar-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Main content */
+    main.main-content {
+      padding: 2rem;
+      min-height: calc(100vh - 80px);
+      background-color: #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      margin: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <span class="logo">🔒 Intrusion Dashboard</span>
+    </div>
+    <div class="navbar-links">
+      <a href="/">Live View</a>
+      <a href="/all_detections">All Detections</a>
+   
+      <a href="/settings">Settings</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
